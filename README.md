@@ -1,3 +1,15 @@
+## Project Tools Detail
+This project is build using the specific tools versioning:
+- Python 3.8.10
+- Postgres 13.3-2
+- Ubuntu 20.04 on Windows 10 WSL
+- Redis 5.0.7
+- Notes: 
+    When running in Ubuntu, if there's an error regarding psycopg2/wheel install. 
+    Please do the following:
+    1. Install wheel -> `pip3 install wheel`
+    2. Install development headers for postgresql -> `sudo apt install python3-dev libpq-dev`
+
 ## Setup Before Running Application:
 1. Please configure the `config.py` file in the __flask_app__ directory to setup database and redis connection.
 2. Create the database in your postgresql with the same name as __DB_NAME__ in `config.py`.
