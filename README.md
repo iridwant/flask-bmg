@@ -14,6 +14,6 @@
     - /user
     - /referral
     - /hero
-    ![Bearer Token](img/berarer_token.jpg)
+    ![Bearer Token](img/bearer_token.jpg)
 3. Make sure to check every Example Request in each route for detailed response.  
     ![Request Example](img/example_request.jpg)
