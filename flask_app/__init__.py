@@ -5,17 +5,18 @@ from flask_jwt_extended import JWTManager
 from flask_bcrypt import Bcrypt
 from flask_caching import Cache
 from flask_migrate import Migrate
+from flask_app import config
 
 app = Flask(__name__)
-app.config['JWT_SECRET_KEY'] = 'y6_7#d9&l^5l5@$ob%4&kk70j@jdmq=h0b(b^9r0$9%@jn#x2%'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5433/flask_bmg'
+app.config['JWT_SECRET_KEY'] = config.JWT_SECRET_KEY
+app.config['SQLALCHEMY_DATABASE_URI'] = config.DB_URI
 
 db = SQLAlchemy(app)
 bcrpyt = Bcrypt(app)
 migrate = Migrate(app, db)
 api = Api(app)
 jwt = JWTManager(app)
-cache = Cache(app, config={'CACHE_TYPE':'redis', 'CACHE_REDIS_URL':'redis://localhost:6379'})
+cache = Cache(app, config={'CACHE_TYPE':'redis', 'CACHE_REDIS_URL':config.REDIS_URL})
 
 @app.before_first_request
 def create_app():
