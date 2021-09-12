@@ -3,21 +3,25 @@ from flask_restx import Api
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 from flask_bcrypt import Bcrypt
+from flask_caching import Cache
 
 app = Flask(__name__)
 app.config['JWT_SECRET_KEY'] = 'y6_7#d9&l^5l5@$ob%4&kk70j@jdmq=h0b(b^9r0$9%@jn#x2%'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5434/flask_bmg'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5433/flask_bmg'
 
 db = SQLAlchemy()
 bcrpyt = Bcrypt()
 api = Api(app)
 jwt = JWTManager(app)
+cache = Cache(config={'CACHE_TYPE':'redis', 'CACHE_REDIS_URL':'redis://localhost:6379'})
 
 @app.before_first_request
 def create_tables():
     db.init_app(app)
+    cache.init_app(app)
     bcrpyt.init_app(app)
     db.create_all()
+    db.session.commit()
 
 
 from flask_app.resources.hero import Hero

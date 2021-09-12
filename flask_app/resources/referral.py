@@ -1,9 +1,7 @@
-from flask_jwt_extended.utils import get_jwt_identity
 from flask_restx import Resource, reqparse
 from flask_jwt_extended import jwt_required
 from flask import make_response, jsonify
 from flask_app.models.user import User
-
 
 class Referral(Resource):
     req_args = reqparse.RequestParser()
