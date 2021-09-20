@@ -2,11 +2,12 @@ from flask.helpers import make_response
 from flask.json import jsonify
 from flask_restx import Resource
 from flask_jwt_extended import jwt_required
-from flask_app import cache
+from flask_app import cache, api
 import requests
 
 class Hero(Resource):
     @jwt_required()
+    @api.doc(security='Bearer Auth')
     def get(self, name):
         url = 'https://ddragon.leagueoflegends.com/cdn/6.24.1/data/en_US/champion.json'
 

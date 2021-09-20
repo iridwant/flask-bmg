@@ -1,11 +1,18 @@
 from flask.helpers import make_response
 from flask.json import jsonify
 from flask_jwt_extended.utils import get_jwt_identity
-from flask_restx import Resource, reqparse
+from flask_restx import Resource, reqparse, fields
 from flask_jwt_extended import jwt_required
 from flask_app.models.user import User as UserModel
-from flask_app import bcrpyt, db
+from flask_app import bcrpyt, db, api
 import re
+
+resource_fields = api.model('User', {
+    'email': fields.String('demouser@mail.com'),
+    'name': fields.String('Tyler Oakley'),
+    'old_password': fields.String('password'),
+    'new_password': fields.String('newpassword')
+})
 
 class User(Resource):
     req_args = reqparse.RequestParser()
@@ -28,7 +35,8 @@ class User(Resource):
         return True
 
     @jwt_required()
-    def get(self, name_input):
+    @api.doc(security='Bearer Auth')
+    def post(self, name_input):
         query = UserModel.query.filter(UserModel.name.like(f'%{name_input}%')).all()
         if query:
             result = [{'id':i.id, 'username':i.username, 'name':i.name} for i in query]
@@ -37,6 +45,8 @@ class User(Resource):
             return make_response(jsonify({'data':[], 'message':'Registered user not found'}), 404)
 
     @jwt_required()
+    @api.expect(resource_fields)
+    @api.doc(security='Bearer Auth')
     def put(self, name_input):
         args = self.req_args.parse_args()
         current_user = get_jwt_identity()

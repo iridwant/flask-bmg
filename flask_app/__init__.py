@@ -14,7 +14,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = config.DB_URI
 db = SQLAlchemy(app)
 bcrpyt = Bcrypt(app)
 migrate = Migrate(app, db)
-api = Api(app)
+api = Api(app, version='1.0.0', title='API BMG', description='API for BMG technical test', security='Bearer Auth', authorizations=config.AUTHORIZATIONS)
 jwt = JWTManager(app)
 cache = Cache(app, config={'CACHE_TYPE':'redis', 'CACHE_REDIS_URL':config.REDIS_URL})
 
