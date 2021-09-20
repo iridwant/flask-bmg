@@ -39,7 +39,7 @@ class User(Resource):
     def get(self, name_input):
         query = UserModel.query.filter(UserModel.name.like(f'%{name_input}%')).all()
         if query:
-            result = [{'id':i.id, 'username':i.username, 'name':i.name} for i in query]
+            result = [{'id':i.id, 'username':i.username, 'name':i.name, 'referral_code':i.referral_code} for i in query]
             return make_response(jsonify({'data':result, 'message':'Success get registered user!'}), 200)
         else:
             return make_response(jsonify({'data':[], 'message':'Registered user not found'}), 404)

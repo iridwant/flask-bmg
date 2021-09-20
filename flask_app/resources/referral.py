@@ -1,14 +1,18 @@
-from flask_restx import Resource, reqparse
+from flask_restx import Resource, reqparse, fields
 from flask_jwt_extended import jwt_required
 from flask import make_response, jsonify
 from flask_app.models.user import User
 from flask_app import api
 
+resource_fields = api.model('Referral', {
+    'referral': fields.String('64F9F'),
+})
 class Referral(Resource):
     req_args = reqparse.RequestParser()
-    req_args.add_argument('code', type=str, required=True)
+    req_args.add_argument('referral', type=str, required=True)
 
     @jwt_required()
+    @api.expect(resource_fields)
     @api.doc(security='Bearer Auth')
     def post(self):
         args = self.req_args.parse_args()
