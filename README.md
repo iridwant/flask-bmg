@@ -1,3 +1,9 @@
+## Updated Project Using Docker Container
+- To run the application, use `docker compose up -d`
+- Application can be accessed from `http://localhost:5000`
+- Please provide authorization in some routes (marked by lock sign in swagger)
+- You can use authorization by providing `Bearer <JWT>` on the swagger authorization.
+
 ## Project Tools Detail
 This project is build using the specific tools versioning:
 - Python 3.8.10
@@ -15,7 +21,7 @@ This project is build using the specific tools versioning:
 2. Create the database in your postgresql with the same name as __DB_NAME__ in `config.py`.
 3. Create your virtual env `python3 -m venv venv`
 4. Activate your virtual env:
-    - Windows: `venv/bin/activate`
+    - Windows: `venv/scripts/activate`
     - Linux: `source venv/bin/activate`
 5. Install the required library from __requirements.txt__ -> `pip3 install -r requirements.txt`
 6. Run the application by executing `run.py` -> `python3 run.py`
