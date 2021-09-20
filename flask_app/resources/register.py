@@ -1,16 +1,24 @@
 from flask_app import bcrpyt, db
 from flask_app.models.user import User
 from flask import jsonify, make_response
-from flask_restx import Resource, reqparse
+from flask_restx import Resource, reqparse, fields
+from flask_app import api
 import uuid
 import re
 
+resource_fields = api.model('Register', {
+    'username': fields.String('demouser'),
+    'password': fields.String('password'),
+    'email': fields.String('demouser@mail.com'),
+    'name': fields.String('Tyler Oakley'),
+})
+
 class Register(Resource):
     req_args = reqparse.RequestParser()
-    req_args.add_argument('username', type=str, required=True, help='Please input your username')
-    req_args.add_argument('password', type=str, required=True, help='Please input your password')
-    req_args.add_argument('email', type=str, required=True, help='Please input your email')
-    req_args.add_argument('name', type=str, required=True, help='Please input your name')
+    req_args.add_argument('username', type=str, required=True, help='Please input your username', default='demouser')
+    req_args.add_argument('password', type=str, required=True, help='Please input your password', default='password')
+    req_args.add_argument('email', type=str, required=True, help='Please input your email', default='demouser@mail.com')
+    req_args.add_argument('name', type=str, required=True, help='Please input your name', default='Tyler Oakley')
     req_args.add_argument('referral', type=str)
 
     def validate_username_password(self):
@@ -26,6 +34,8 @@ class Register(Resource):
             return False
         return True
 
+    @api.expect(resource_fields)
+    @api.doc(security=None)
     def post(self):
         args = self.req_args.parse_args()
         
@@ -46,7 +56,14 @@ class Register(Resource):
         try:
             db.session.add(user)
             db.session.commit()
-            return make_response(jsonify({'message': 'User created!'}), 201)
+            return make_response(jsonify({
+                    'message': 'User created!',
+                    'data': {
+                        'username': new_user['username'],
+                        'email': new_user['email'],
+                        'referral_code': new_user['referral_code']
+                    }
+                }), 201)
         except:
             return make_response(jsonify({'message': 'Username/email already registered. Please pick another one!'}), 400)
                 
