@@ -1,13 +1,15 @@
+import os
+
 DB_CONFIG =  {
-    'USER': 'postgres',
-    'PASSWORD': 'postgres',
-    'PORT': 5433,
-    'HOST': 'localhost',
-    'DB_NAME': 'flask_bmg'
+    'USER': os.environ.get('POSTGRES_USER'),
+    'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+    'PORT': os.environ.get('POSTGRES_PORT'),
+    'HOST': os.environ.get('POSTGRES_HOST'),
+    'DB_NAME': os.environ.get('POSTGRES_DB')
 }
 REDIS_CONFIG = {
-    'HOST': 'localhost',
-    'PORT': 6379
+    'HOST': os.environ.get('REDIS_HOST'),
+    'PORT': os.environ.get('REDIS_PORT')
 }
 JWT_SECRET_KEY = 'y6_7#d9&l^5l5@$ob%4&kk70j@jdmq=h0b(b^9r0$9%@jn#x2%'
 
