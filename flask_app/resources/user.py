@@ -36,7 +36,7 @@ class User(Resource):
 
     @jwt_required()
     @api.doc(security='Bearer Auth')
-    def post(self, name_input):
+    def get(self, name_input):
         query = UserModel.query.filter(UserModel.name.like(f'%{name_input}%')).all()
         if query:
             result = [{'id':i.id, 'username':i.username, 'name':i.name} for i in query]
